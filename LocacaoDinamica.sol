@@ -9,7 +9,7 @@ contract LocacaoDinamica {
     string private locador;
     string private locatario;
 
-    uint256[] alugueis;
+    uint256[36] alugueis;
 
     constructor(string memory _locador, string memory _locatario,uint256 valorDefault){
         locador = _locador;
