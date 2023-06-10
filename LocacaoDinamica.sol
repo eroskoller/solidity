@@ -20,7 +20,7 @@ contract LocacaoDinamica {
     }
 
     function valorPorMes(uint mes) public view returns( uint256){
-        return alugueis[mes];
+        return alugueis[mes - 1];
     }
 
     function nomesDasPartes() public view returns (string memory){
