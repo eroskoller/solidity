@@ -23,10 +23,8 @@ contract LocacaoDinamica {
         return alugueis[mes - 1];
     }
 
-    function nomesDasPartes() public view returns (string memory){
-        string memory s1 = string.concat("locador: ", locador);
-        string memory s2 = string.concat(",locatario: ", locatario);
-        return string.concat(s1, s2);
+    function nomesDasPartes() public view returns (string memory, string memory){
+        return string.concat(locador, locatario);
     }
 
 function alteraNomeContratantes(uint option, string memory name) public returns (bool) {
