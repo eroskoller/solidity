@@ -12,8 +12,8 @@ function setBonus(uint256 _bonus)public {
     bonus = _bonus;
 }
 
-function setNomeVendedor(string memory _nome) public {
-    nomeVendedor = _nome;
+function setNomeVendedor(string memory _nomeVendedor) public {
+    nomeVendedor = _nomeVendedor;
 }
 
 
