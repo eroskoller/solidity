@@ -6,7 +6,7 @@ pragma solidity ^0.8.15;
 contract VendaBonus {
 
     string public nomeVendedor;
-    uint256 bonus;
+    uint256 public bonus;
 
 function setBonus(uint256 _bonus)public {
     bonus = _bonus;
