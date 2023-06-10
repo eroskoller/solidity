@@ -13,17 +13,12 @@ function setBonus(uint256 _bonus)public {
 
 
 function setNomeVendedor(string memory _nome) public {
-
     nomeVendedor = _nome;
-
 }
 
     // constructor(uint256 _bonus , string memory _nomeVendedor){
-
     //     bonus = _bonus;
-
     //     nomeVendedor = _nomeVendedor;
-
     // }
 
 
