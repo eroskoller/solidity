@@ -24,7 +24,7 @@ contract LocacaoDinamica {
     }
 
     function nomesDasPartes() public view returns (string memory, string memory){
-        return string.concat(locador, locatario);
+        return (locador, locatario);
     }
 
 function alteraNomeContratantes(uint option, string memory name) public returns (bool) {
