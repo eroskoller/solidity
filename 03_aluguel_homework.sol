@@ -5,7 +5,7 @@ pragma solidity ^0.8.15;
 
 //required revert Struct modifier
 
-contract LocacaoDinamica {
+contract AlugueHomeWork {
 
 
  struct Aluguel {
