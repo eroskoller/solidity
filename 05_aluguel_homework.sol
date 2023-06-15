@@ -1,6 +1,5 @@
-
 // SPDX-License-Identifier: MIT
-//0x431adaCa54bF5208D23a3D1CD464Be12b4B8083b
+//0xED217910bEeBE95a1db54B3d3AEe4BbAb7e1402b
 pragma solidity ^0.8.15;
 
 
@@ -35,7 +34,7 @@ contract Status {
     }
 }
 
-contract AlugueHomeWork is Ownable {
+contract AluguelHomeWork  is Ownable, Status{
     struct Aluguel {
         uint256 codigo;
         bytes32 hash;
@@ -63,15 +62,14 @@ contract AlugueHomeWork is Ownable {
     }
 
     modifier validaMes(uint256 _mes) {
-        require(_mes < 36, "Mes invalido!");
+        require(_mes <= 36, "Mes invalido!");
         _;
     }
 
     function montaParcelas(uint256 _valor)
         private
         pure
-        returns (uint256[36] memory parcelas)
-    {
+        returns (uint256[36] memory parcelas){
         for (uint256 i = 0; i < 36; i++) {
             parcelas[i] = _valor;
         }
@@ -88,8 +86,7 @@ contract AlugueHomeWork is Ownable {
         onlyOwner
         validaValorParcela(_parcela)
         validaCodigoContrato(_codigo)
-        returns (bool)
-    {
+        returns (bool) {
         Aluguel memory _aluguel = Aluguel(
             _codigo,
             keccak256(bytes(string.concat(_locador, _locatario))),
@@ -107,19 +104,26 @@ contract AlugueHomeWork is Ownable {
         validaExistenciaContrato(_codigo)
         validaCodigoContrato(_codigo)
         validaMes(mes)
-        returns (uint256)
-    {
-        return alugueis[_codigo].parcelas[mes];
+        returns (uint256){
+        return alugueis[_codigo].parcelas[mes + 1];
     }
 
     function nomesDasPartes(uint256 _codigo)
         public
         view
         validaExistenciaContrato(_codigo)
-        returns (string memory, string memory)
-    {
+        returns (string memory, string memory){
         Aluguel memory a = alugueis[_codigo];
         return (a.locador, a.locatario);
+    }
+
+    function getAluguel(uint256 _codigo)
+        public
+        view
+        validaExistenciaContrato(_codigo)
+        returns (Aluguel memory){
+        Aluguel memory a = alugueis[_codigo];
+        return a;
     }
 
     function alteraNomeContratantes(
@@ -128,12 +132,12 @@ contract AlugueHomeWork is Ownable {
         string memory name
     )
         public
-        view
+        
         onlyOwner
         validaExistenciaContrato(_codigo)
         validaCodigoContrato(_codigo)
-        returns (bool)
-    {
+        returns (bool){
+
         Aluguel memory a = alugueis[_codigo];
         if (option == 1) {
             a.locador = name;
@@ -143,6 +147,7 @@ contract AlugueHomeWork is Ownable {
             revert("Opcao invalida!");
         }
         a.hash =  keccak256(bytes(string.concat(a.locador, a.locatario)));
+        alugueis[_codigo] = a;
         return true;
     }
 
@@ -152,16 +157,16 @@ contract AlugueHomeWork is Ownable {
         uint256 acrecimo
     )
         public
-        view
+        
         validaExistenciaContrato(_codigo)
         validaMes(startMes)
         validaValorParcela(acrecimo)
-        returns (bool)
-    {
+        returns (bool){
         Aluguel memory a = alugueis[_codigo];
         for (uint256 i = startMes; i < a.parcelas.length; i++) {
             a.parcelas[i] = a.parcelas[i] + acrecimo;
         }
+        alugueis[_codigo] = a;
         return true;
     }
 }
