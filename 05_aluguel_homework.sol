@@ -23,18 +23,9 @@ contract Ownable {
     }
 }
 
-contract Status {
-    bool public isValid;
-    constructor() {
-        isValid = true;
-    }
-    function notValid() public returns(bool) {
-        isValid = false;
-        return true;
-    }
-}
 
-contract AluguelHomeWork  is Ownable, Status{
+
+contract AluguelHomeWork  is Ownable {
     struct Aluguel {
         uint256 codigo;
         bytes32 hash;
@@ -105,7 +96,7 @@ contract AluguelHomeWork  is Ownable, Status{
         validaCodigoContrato(_codigo)
         validaMes(mes)
         returns (uint256){
-        return alugueis[_codigo].parcelas[mes + 1];
+        return alugueis[_codigo].parcelas[mes -1];
     }
 
     function nomesDasPartes(uint256 _codigo)
@@ -163,8 +154,8 @@ contract AluguelHomeWork  is Ownable, Status{
         validaValorParcela(acrecimo)
         returns (bool){
         Aluguel memory a = alugueis[_codigo];
-        for (uint256 i = startMes; i < a.parcelas.length; i++) {
-            a.parcelas[i] = a.parcelas[i] + acrecimo;
+        for (uint256 i = startMes; i <= a.parcelas.length; i++) {
+            a.parcelas[i-1] = a.parcelas[i-1] + acrecimo;
         }
         alugueis[_codigo] = a;
         return true;
