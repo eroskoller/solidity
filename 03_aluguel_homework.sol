@@ -3,11 +3,29 @@
 pragma solidity ^0.8.15;
 
 
-//required revert Struct modifier
+contract Ownable {
+    address public owner;
+    
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Only owner can perform this action");
+        _;
+    }
 
-contract AlugueHomeWork {
+    constructor() {
+        owner = msg.sender;
+    }
+
+    function changeOwner(address _owner) public onlyOwner returns (bool) {
+        owner = _owner;
+        return true;
+    }
+} 
+
+
+contract AlugueHomeWork is Ownable {
     struct Aluguel {
         uint256 codigo;
+        bytes32 hash;
         string locador;
         string locatario;
         uint256[36] parcelas;
@@ -54,12 +72,14 @@ contract AlugueHomeWork {
         uint256 _parcela
     )
         external
+        onlyOwner
         validaValorParcela(_parcela)
         validaCodigoContrato(_codigo)
         returns (bool)
     {
         Aluguel memory _aluguel = Aluguel(
             _codigo,
+            keccak256(bytes(string.concat(_locador, _locatario))),
             _locador,
             _locatario,
             montaParcelas(_parcela)
@@ -94,11 +114,13 @@ contract AlugueHomeWork {
         uint256 option,
         string memory name
     ) public view
+    onlyOwner
     validaExistenciaContrato(_codigo) 
     validaCodigoContrato(_codigo) returns (bool) {
         Aluguel memory a = alugueis[_codigo];
         if (option == 1) {
             a.locador = name;
+             a.hash(keccak256(bytes(string.concat(a.locador, a.locatario))));
         } else if (option == 2) {
             a.locatario = name;
         } else {
@@ -123,3 +145,4 @@ contract AlugueHomeWork {
         return true;
     }
 }
+
