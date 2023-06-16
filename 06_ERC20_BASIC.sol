@@ -4,17 +4,19 @@
 //CONSTRUCTOR => ZeroCoin,TZRC, 2
 pragma solidity 0.8.20;
 
-contract ERC20 {
+import "./06_IERC20.sol";
+
+contract ERC20 is IERC20  {
     /*//////////////////////////////////////////////////////////////
                                  EVENTS
     //////////////////////////////////////////////////////////////*/
 
-    event Transfer(address indexed from, address indexed to, uint256 amount);
+    // event Transfer(address indexed from, address indexed to, uint256 amount);
     /**
     * It's a document that the owner, approv the spender to spend certain amount of tokens
     *
     **/
-    event Approval(address indexed owner, address indexed spender, uint256 amount);
+    // event Approval(address indexed owner, address indexed spender, uint256 amount);
 
     /*//////////////////////////////////////////////////////////////
                             METADATA STORAGE
