@@ -167,20 +167,15 @@ contract AluguelHomeWork  is Ownable {
     validaExistenciaContrato(_codigo)
         validaCodigoContrato(_codigo)
         validaMes(mes){
-        // require(msg.sender == owner, "only owner can withdraw");
-        // Note that "to" is declared as payable
          Aluguel storage a = alugueis[_codigo];
          uint _index = mes -1;
          require(a.parcelas[_index] > 0, "Parcela jah foi paga.");
          require(a.parcelas[_index] == msg.value, "Valor enviado nao corresponde c o valor da parcela");
-        // (bool success, ) = _to.call{value: msg.value}("");
-        // (bool success, ) = _to.call{value: _amount}("");
         (bool success, bytes memory data) = a.locadorAddress.call{value: msg.value}("");
         emit Log(data);
         require(success, "Failed to send Ether");
         if(!success) revert("Falha no pagamento da parcela, revertendo operacao");
         a.parcelas[_index] = 0;
-        // alugueis[_codigo] = a;
         
     }
 
